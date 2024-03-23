@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 
-const Card = ({ title, price, image, sizes, types }) => {
+const Card = ({ title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={image} alt="Pizza" />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
           {types.map((type) => (
             <li
+              key={type}
               onClick={() => setActiveType(type)}
               className={activeType === type ? "active" : ""}
             >
@@ -23,6 +24,7 @@ const Card = ({ title, price, image, sizes, types }) => {
         <ul>
           {sizes.map((sizes, i) => (
             <li
+              key={sizes}
               onClick={() => setActiveSize(i)}
               className={activeSize === i ? "active" : ""}
             >
