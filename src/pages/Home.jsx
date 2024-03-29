@@ -4,7 +4,7 @@ import Sort from "../scss/components/Sort/Sort";
 import Categories from "../scss/components/Categories/Categories";
 import Skeleton from "../scss/components/Card/Skeleton";
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -16,10 +16,12 @@ const Home = () => {
   React.useEffect(() => {
     setIsLoading(true);
 
+    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    const sortBy = sortType.sortProperty.replace("-", "");
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+
     fetch(
-      `https://65c3afef39055e7482c16929.mockapi.io/items?${
-        categoryId > 0 ? `category=${categoryId}` : ""
-      }&sortBy=${sortType.sortProperty}&order=desc`
+      `https://65c3afef39055e7482c16929.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
     )
       .then((res) => res.json())
       .then((arr) => {
@@ -28,6 +30,16 @@ const Home = () => {
       });
     window.scrollTo(0, 0);
   }, [categoryId, sortType]);
+
+  const pizzas = items
+    .filter((obj) => {
+      if (obj.title.includes(searchValue)) {
+        return true;
+      }
+      return false;
+    })
+    .map((obj) => <Card key={obj.id} {...obj} />);
+  const skeletons = [...new Array(6)].map((index) => <Skeleton key={index} />);
 
   return (
     <div className="container">
@@ -39,11 +51,7 @@ const Home = () => {
         <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((index) => <Skeleton key={index} />)
-          : items.map((obj) => <Card key={obj.id} {...obj} />)}
-      </div>
+      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
     </div>
   );
 };

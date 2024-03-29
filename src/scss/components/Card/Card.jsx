@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Card = ({ title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = React.useState(0);
+
   const [activeSize, setActiveSize] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
 
@@ -35,7 +36,7 @@ const Card = ({ title, price, imageUrl, sizes, types }) => {
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price}</div>
+          <div className="pizza-block__price">от {price}₽</div>
           <div className="button button--outline button--add">
             <svg
               width="12"

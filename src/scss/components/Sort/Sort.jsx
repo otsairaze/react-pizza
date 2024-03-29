@@ -4,9 +4,12 @@ const Sort = ({ value, onChangeSort }) => {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(0);
   const list = [
-    { name: "популярности", sortProperty: "rating" },
-    { name: "цене", sortProperty: "price" },
-    { name: "алфавиту", sortProperty: "title" },
+    { name: "популярности(DESC)", sortProperty: "rating" },
+    { name: "популярности(ASC)", sortProperty: "-rating" },
+    { name: "цене(ASC)", sortProperty: "price" },
+    { name: "алфавиту(DESC)", sortProperty: "title" },
+    { name: "цене(DESC)", sortProperty: "-price" },
+    { name: "алфавиту(ASC)", sortProperty: "-title" },
   ];
 
   const onClickListItem = (i) => {
