@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Card from "../scss/components/Card/Card";
 import Sort from "../scss/components/Sort/Sort";
 import Categories from "../scss/components/Categories/Categories";
@@ -7,10 +9,16 @@ import Pagination from "../scss/components/Pagination";
 import { SearchContext } from "../App";
 
 const Home = () => {
+  const categoryId = useSelector((state) => state.filter.categoryId);
+
+  // console.log("redux state", categoryId);
+
+  const setCategory = () => {};
+
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
+  // const [categoryId, setCategoryId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({
     name: "популярности",
@@ -30,9 +38,15 @@ const Home = () => {
     )
       .then((res) => res.json())
       .then((arr) => {
-        setItems(arr);
-        setIsLoading(false);
+        if (arr !== "Not found") {
+          setItems(arr);
+          setIsLoading(false);
+        } else {
+          setItems([]);
+          setIsLoading(false);
+        }
       });
+
     window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentPage]);
 
