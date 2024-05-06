@@ -1,14 +1,13 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
+import { SearchContext } from "../App";
 import { setCategoryId, setCurrentPage } from "../redux/Slices/filterSlice";
 import Card from "../scss/components/Card/Card";
 import Sort from "../scss/components/Sort/Sort";
 import Categories from "../scss/components/Categories/Categories";
 import Skeleton from "../scss/components/Card/Skeleton";
 import Pagination from "../scss/components/Pagination";
-import { SearchContext } from "../App";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -65,7 +64,9 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      <div key={"content__items"} className="content__items">
+        {isLoading ? skeletons : pizzas}
+      </div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
